@@ -11,8 +11,36 @@ const getImageBtn = document.getElementById('get-image-btn')
 //add the logic to return the object based on selection on isGifOnly Checkbox when clicked on Get Image button
 //get the image from images and render into HTML by using the cat object we are getting, when clicked on Get Image button
 
+function getEmotionsArrayFromCatsData(cats){
+    const emotionsArray = []
+    cats.forEach(function(cat){
+        cat.emotionTags.forEach(function(emotion){
+            if(!emotionsArray.includes(emotion)){
+                emotionsArray.push(emotion)
+            }
+        })
+    })
+    return emotionsArray
+}
 
 
+function renderEmotionsInHTML(){
+    const emotions = getEmotionsArrayFromCatsData(catsData)//it would be an array
+
+    let neededHTML = ""
+    for(let emotion of emotions){
+        neededHTML += `
+            <label for="${emotion}">${emotion}</label>
+            <input type="radio" id="${emotion}" value="${emotion}">
+        `
+        console.log(emotion)
+    }
+    emotionRadiosDiv.innerHTML = neededHTML
+    //createRadio
+    //createLabel
+}
+
+renderEmotionsInHTML()
 
 
 
