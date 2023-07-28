@@ -40,7 +40,8 @@ function renderEmotionsInHTML(){
         Object.assign(inputRadioButton, {
             type: 'radio',
             id: emotion,
-            value: emotion
+            value: emotion,
+            name: 'emotion-group'
         })
         const parentDiv = document.createElement('div')
         parentDiv.classList.add('radio')
