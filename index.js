@@ -1,5 +1,4 @@
 import { catsData } from "./data.js"
-// console.log(catsData);
 const emotionRadiosDiv = document.getElementById('emotion-radios')
 const isGifOnly = document.getElementById('gifs-only-option')
 const getImageBtn = document.getElementById('get-image-btn')
@@ -7,7 +6,7 @@ const getImageBtn = document.getElementById('get-image-btn')
 //we have to get the emotions from cats data - Done
 //remove duplicate emotions - Done
 //create radio button against the emotion - Done
-//style the selected radio button
+//style the selected radio button - Done
 //add the logic to return the object based on selection on isGifOnly Checkbox when clicked on Get Image button
 //get the image from images and render into HTML by using the cat object we are getting, when clicked on Get Image button
 
@@ -24,8 +23,8 @@ function getEmotionsArrayFromCatsData(cats){
 }
 
 
-function renderEmotionsInHTML(){
-    const emotions = getEmotionsArrayFromCatsData(catsData)//it would be an array
+function renderEmotionsInHTML(cats){
+    const emotions = getEmotionsArrayFromCatsData(cats)//it would be an array
     const fragment = document.createDocumentFragment()
     for(let emotion of emotions){
         // console.log(emotion)
@@ -53,7 +52,7 @@ function renderEmotionsInHTML(){
     emotionRadiosDiv.appendChild(fragment)
 }
 
-renderEmotionsInHTML()
+renderEmotionsInHTML(catsData)
 
 emotionRadiosDiv.addEventListener('change', function(event){
     //when we use 'click' listener and clicked on div, we are getting two IDs in this case
@@ -61,6 +60,7 @@ emotionRadiosDiv.addEventListener('change', function(event){
     const id = event.target.id
     highlightCheckedRadioButton(id)
 })
+
 function highlightCheckedRadioButton(id){
     const emotionDivCollection = document.getElementsByClassName('radio')
     for(let emotionDiv of emotionDivCollection){
@@ -72,4 +72,41 @@ function highlightCheckedRadioButton(id){
     if(id){
         document.getElementById(id).parentElement.classList.add('highlight')
     }
+}
+
+getImageBtn.addEventListener('click', getCatObjectsAsPerUserSelection)
+
+function getCatObjectsAsPerUserSelection(){
+    const checkedEmotionValue = getCheckedRadioButton().value
+    console.log(checkedEmotionValue)
+    let catObjects
+    if(isGifOnly.checked){
+        catObjects = catsData.filter(function(cat){
+            return cat.emotionTags.includes(checkedEmotionValue) && cat.isGif //=== isGifOnly.checked//obvs true and cat.isGif works
+        })
+    }else{
+        catObjects = catsData.filter(function(cat){
+            return cat.emotionTags.includes(checkedEmotionValue)
+        })
+    }
+    console.log(catObjects)
+    getSingleCatObjectAsPerUserSelection(catObjects)
+}
+
+function getCheckedRadioButton(){
+    return document.querySelector("input[type='radio']:checked")
+}
+
+function getSingleCatObjectAsPerUserSelection(catObjects){
+    const lengthOfArray = catObjects.length
+    const selectedCatObject = selectRandomCatObject(catObjects, lengthOfArray)
+    console.log("selectedCatObject: " + selectedCatObject)
+    console.log(selectedCatObject)
+    const imageFromSelectedObject = selectedCatObject.image
+    console.log(imageFromSelectedObject)
+}
+
+function selectRandomCatObject(catObjects, lengthOfArray){
+   const randomIndex = Math.floor(Math.random() * lengthOfArray)
+   return catObjects[randomIndex]
 }
