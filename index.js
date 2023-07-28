@@ -4,7 +4,12 @@ const emotionRadiosDiv = document.getElementById('emotion-radios')
 const isGifOnly = document.getElementById('gifs-only-option')
 const getImageBtn = document.getElementById('get-image-btn')
 
-
+//we have to get the emotions from cats data
+//remove duplicate emotions
+//create radio button against the emotion
+//style the selected radio button
+//add the logic to return the object based on selection on isGifOnly Checkbox when clicked on Get Image button
+//get the image from images and render into HTML by using the cat object we are getting, when clicked on Get Image button
 
 
 
