@@ -31,13 +31,17 @@ function renderEmotionsInHTML(){
         console.log(emotion)
         const label = document.createElement('label')
         // adding properties to label element
-        label.for = emotion
-        label.textContent = emotion
+        Object.assign(label, {
+            for: emotion,
+            textContent: emotion
+        })
         const inputRadioButton = document.createElement('input')
         // adding properties to radio element
-        inputRadioButton.type = 'radio'
-        inputRadioButton.id = emotion
-        inputRadioButton.value = emotion
+        Object.assign(inputRadioButton, {
+            type: 'radio',
+            id: emotion,
+            value: emotion
+        })
         const parentDiv = document.createElement('div')
         parentDiv.classList.add('radio')
         parentDiv.appendChild(label)
