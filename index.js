@@ -26,27 +26,25 @@ function getEmotionsArrayFromCatsData(cats){
 
 function renderEmotionsInHTML(){
     const emotions = getEmotionsArrayFromCatsData(catsData)//it would be an array
-
-    // let neededHTML = ""
+    const fragment = document.createDocumentFragment()
     for(let emotion of emotions){
-        // neededHTML += `
-        //     <label for="${emotion}">${emotion}</label>
-        //     <input type="radio" id="${emotion}" value="${emotion}">
-        // `
         console.log(emotion)
         const label = document.createElement('label')
         // adding properties to label element
         label.for = emotion
         label.textContent = emotion
         const inputRadioButton = document.createElement('input')
+        // adding properties to radio element
         inputRadioButton.type = 'radio'
         inputRadioButton.id = emotion
         inputRadioButton.value = emotion
-        console.log(inputRadioButton)
+        const parentDiv = document.createElement('div')
+        parentDiv.classList.add('radio')
+        parentDiv.appendChild(label)
+        parentDiv.appendChild(inputRadioButton)
+        fragment.appendChild(parentDiv)
     }
-    // emotionRadiosDiv.innerHTML = neededHTML
-    //createRadio
-    //createLabel
+    emotionRadiosDiv.appendChild(fragment)
 }
 
 renderEmotionsInHTML()
