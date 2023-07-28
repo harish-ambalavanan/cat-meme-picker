@@ -32,7 +32,7 @@ function renderEmotionsInHTML(){
         const label = document.createElement('label')
         // adding properties to label element
         Object.assign(label, {
-            for: emotion,
+            htmlFor: emotion,
             textContent: emotion
         })
         const inputRadioButton = document.createElement('input')
