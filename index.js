@@ -2,6 +2,7 @@ import { catsData } from "./data.js"
 const emotionRadiosDiv = document.getElementById('emotion-radios')
 const isGifOnly = document.getElementById('gifs-only-option')
 const getImageBtn = document.getElementById('get-image-btn')
+const memeImageModal = document.getElementById('meme-modal-inner')
 
 //we have to get the emotions from cats data - Done
 //remove duplicate emotions - Done
@@ -104,9 +105,18 @@ function getSingleCatObjectAsPerUserSelection(catObjects){
     console.log(selectedCatObject)
     const imageFromSelectedObject = selectedCatObject.image
     console.log(imageFromSelectedObject)
+    renderImageModal(imageFromSelectedObject)
 }
 
 function selectRandomCatObject(catObjects, lengthOfArray){
    const randomIndex = Math.floor(Math.random() * lengthOfArray)
    return catObjects[randomIndex]
+}
+
+function renderImageModal(imageName){
+    const image = document.createElement('img')
+    image.setAttribute('src', './images/'+imageName)
+    image.classList.add('cat-img')
+    memeImageModal.appendChild(image)
+    memeImageModal.parentElement.style.display = 'flex'
 }
