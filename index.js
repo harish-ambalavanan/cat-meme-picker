@@ -2,7 +2,9 @@ import { catsData } from "./data.js"
 const emotionRadiosDiv = document.getElementById('emotion-radios')
 const isGifOnly = document.getElementById('gifs-only-option')
 const getImageBtn = document.getElementById('get-image-btn')
-const memeImageModal = document.getElementById('meme-modal-inner')
+const memeModal = document.getElementById('meme-modal')
+const memeImageContainer = document.getElementById('meme-modal-inner')
+const memeModalCloseBtn = document.getElementById('meme-modal-close-btn')
 
 //we have to get the emotions from cats data - Done
 //remove duplicate emotions - Done
@@ -117,6 +119,13 @@ function renderImageModal(imageName){
     const image = document.createElement('img')
     image.setAttribute('src', './images/'+imageName)
     image.classList.add('cat-img')
-    memeImageModal.appendChild(image)
-    memeImageModal.parentElement.style.display = 'flex'
+    memeImageContainer.appendChild(image)
+    memeImageContainer.parentElement.style.display = 'flex'//parent is modal element
+}
+
+memeModalCloseBtn.addEventListener('click', closeModal)
+
+function closeModal(){
+    memeImageContainer.innerHTML = ''
+    memeModal.style.display = 'none'
 }
