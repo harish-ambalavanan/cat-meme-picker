@@ -1,4 +1,5 @@
 import { catsData } from "./data.js"
+
 const emotionRadiosDiv = document.getElementById('emotion-radios')
 const isGifOnly = document.getElementById('gifs-only-option')
 const getImageBtn = document.getElementById('get-image-btn')
@@ -11,21 +12,10 @@ let checkedId
 //remove duplicate emotions - Done
 //create radio button against the emotion - Done
 //style the selected radio button - Done
-//add the logic to return the object based on selection on isGifOnly Checkbox when clicked on Get Image button
-//get the image from images and render into HTML by using the cat object we are getting, when clicked on Get Image button
+//add the logic to return the object based on selection on isGifOnly Checkbox when clicked on Get Image button - Done
+//get the image from images and render into HTML by using the cat object we are getting, when clicked on Get Image button - Done
 
-function getEmotionsArrayFromCatsData(cats){
-    const emotionsArray = []
-    cats.forEach(function(cat){
-        cat.emotionTags.forEach(function(emotion){
-            if(!emotionsArray.includes(emotion)){
-                emotionsArray.push(emotion)
-            }
-        })
-    })
-    return emotionsArray
-}
-
+renderEmotionsInHTML(catsData)
 
 function renderEmotionsInHTML(cats){
     const emotions = getEmotionsArrayFromCatsData(cats)//it would be an array
@@ -56,30 +46,46 @@ function renderEmotionsInHTML(cats){
     emotionRadiosDiv.appendChild(fragment)
 }
 
-renderEmotionsInHTML(catsData)
+function getEmotionsArrayFromCatsData(cats){
+    const emotionsArray = []
+    cats.forEach(function(cat){
+        cat.emotionTags.forEach(function(emotion){
+            if(!emotionsArray.includes(emotion)){
+                emotionsArray.push(emotion)
+            }
+        })
+    })
+    return emotionsArray
+}
 
-emotionRadiosDiv.addEventListener('change', function(event){
-    //when we use 'click' listener and clicked on div, we are getting two IDs in this case
-    //so using 'change' listener
-    const id = event.target.id
-    highlightCheckedRadioButton(id)
-})
+emotionRadiosDiv.addEventListener('change', highlightCheckedRadioButton)
+//when we use 'click' listener and clicked on div, we are getting two IDs in this case
+//so using 'change' listener
 
-function highlightCheckedRadioButton(id){
+getImageBtn.addEventListener('click', getCatObjectsAsPerUserSelection)
+
+memeModalCloseBtn.addEventListener('click', closeModal)
+
+function highlightCheckedRadioButton(event){
     const emotionDivCollection = document.getElementsByClassName('radio')
     for(let emotionDiv of emotionDivCollection){
-        // console.log(emotion)
         // if(emotion.className.includes('highlight')){
             emotionDiv.classList.remove('highlight')
         // }
     }
-    if(id){
-        document.getElementById(id).parentElement.classList.add('highlight')
+    if(event.target.id){
+        document.getElementById(event.target.id).parentElement.classList.add('highlight')
+        setCheckedId(event.target.id)
     }
-    setCheckedId(id)
 }
 
-getImageBtn.addEventListener('click', getCatObjectsAsPerUserSelection)
+function setCheckedId(id){
+    checkedId = id
+}
+
+function getCheckedId(id){
+   return checkedId
+}
 
 function getCatObjectsAsPerUserSelection(){
     // const checkedEmotionValue = getCheckedRadioButton().value
@@ -108,9 +114,9 @@ function getSingleCatObjectAsPerUserSelection(catObjects){
     const selectedCatObject = selectRandomCatObject(catObjects, lengthOfArray)
     console.log("selectedCatObject: " + selectedCatObject)
     console.log(selectedCatObject)
-    const imageFromSelectedObject = selectedCatObject.image
-    console.log(imageFromSelectedObject)
-    renderImageModal(imageFromSelectedObject)
+    // const imageFromSelectedObject = selectedCatObject.image
+    // console.log(imageFromSelectedObject)
+    renderImageModal(selectedCatObject)
 }
 
 function selectRandomCatObject(catObjects, lengthOfArray){
@@ -118,25 +124,21 @@ function selectRandomCatObject(catObjects, lengthOfArray){
    return catObjects[randomIndex]
 }
 
-function renderImageModal(imageName){
+function renderImageModal(finalObject){
     const image = document.createElement('img')
-    image.setAttribute('src', './images/'+imageName)
-    image.classList.add('cat-img')
+    // image.setAttribute('src', './images/'+finalObject.image)
+    // image.classList.add('cat-img')
+
+    Object.assign(image, {
+        src: './images/'+finalObject.image,
+        classList: 'cat-img',
+        alt: finalObject.alt
+    })
     memeImageContainer.appendChild(image)
     memeImageContainer.parentElement.style.display = 'flex'//parent is modal element
 }
 
-memeModalCloseBtn.addEventListener('click', closeModal)
-
 function closeModal(){
     memeImageContainer.innerHTML = ''
     memeModal.style.display = 'none'
-}
-
-function setCheckedId(id){
-    checkedId = id
-}
-
-function getCheckedId(){
-    return checkedId
 }
