@@ -5,6 +5,7 @@ const getImageBtn = document.getElementById('get-image-btn')
 const memeModal = document.getElementById('meme-modal')
 const memeImageContainer = document.getElementById('meme-modal-inner')
 const memeModalCloseBtn = document.getElementById('meme-modal-close-btn')
+let checkedId
 
 //we have to get the emotions from cats data - Done
 //remove duplicate emotions - Done
@@ -75,12 +76,14 @@ function highlightCheckedRadioButton(id){
     if(id){
         document.getElementById(id).parentElement.classList.add('highlight')
     }
+    setCheckedId(id)
 }
 
 getImageBtn.addEventListener('click', getCatObjectsAsPerUserSelection)
 
 function getCatObjectsAsPerUserSelection(){
-    const checkedEmotionValue = getCheckedRadioButton().value
+    // const checkedEmotionValue = getCheckedRadioButton().value
+    const checkedEmotionValue = document.getElementById(getCheckedId()).value
     console.log(checkedEmotionValue)
     let catObjects
     if(isGifOnly.checked){
@@ -96,9 +99,9 @@ function getCatObjectsAsPerUserSelection(){
     getSingleCatObjectAsPerUserSelection(catObjects)
 }
 
-function getCheckedRadioButton(){
-    return document.querySelector("input[type='radio']:checked")
-}
+// function getCheckedRadioButton(){
+//     return document.querySelector("input[type='radio']:checked")
+// }
 
 function getSingleCatObjectAsPerUserSelection(catObjects){
     const lengthOfArray = catObjects.length
@@ -128,4 +131,12 @@ memeModalCloseBtn.addEventListener('click', closeModal)
 function closeModal(){
     memeImageContainer.innerHTML = ''
     memeModal.style.display = 'none'
+}
+
+function setCheckedId(id){
+    checkedId = id
+}
+
+function getCheckedId(){
+    return checkedId
 }
